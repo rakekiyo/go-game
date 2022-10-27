@@ -14,8 +14,8 @@ public partial class Goban
         return copiedPoints;
     }
 
-    public int getMovementPoint(Direction dir)
+    public int getDirectionPointIndex(int pointIndex, Direction dir)
     {
-        return movementPoints[dir];
+        return pointIndex + movementPoints[dir];
     }
 }
