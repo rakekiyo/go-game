@@ -13,5 +13,5 @@ public abstract class Player
         this.Stone = stone;
     }
 
-    public abstract int selectNextMove(in PointState[] points);
+    public abstract int selectNextMove(in Stone[] points);
 }

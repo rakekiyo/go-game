@@ -32,15 +32,25 @@ public class Taikyoku
         while (true)
         {
             // 手を選ぶ
-            var selectedMove = currentPlayer.selectNextMove(this.goban.points);
+            var selectedMove = currentPlayer.selectNextMove(this.goban.getPoints());
 
             // 石を置く
-            if (this.goban.putStone(currentPlayer.Stone, selectedMove))
+            switch (this.goban.move(currentPlayer.Stone, selectedMove))
             {
-                tesuu++;
+                case Goban.MovingResult.OK:
+                    tesuu++;
 
-                currentPlayer = this.changePlayer(currentPlayer.Stone);
-                GobanPrinter.print(this.goban);
+                    currentPlayer = this.changePlayer(currentPlayer.Stone);
+                    GobanPrinter.print(this.goban);
+                    break;
+                case Goban.MovingResult.NG:
+                    // 未実装
+                    tesuu++;
+                    break;
+                case Goban.MovingResult.PASS:
+                    // 未実装
+                    tesuu++;
+                    break;
             }
 
             // とりあえずテストは100手で終了

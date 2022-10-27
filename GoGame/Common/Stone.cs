@@ -2,6 +2,8 @@ namespace rakekiyo.GoGame.Common;
 
 public enum Stone
 {
+    Empty,
     Black,
-    White
+    White,
+    Edge
 }

@@ -3,9 +3,11 @@ using rakekiyo.GoGame.Common;
 
 namespace rakekiyo.GoGame;
 
-public class Goban
+public partial class Goban
 {
-    public PointState[] points;
+    private Stone[] points;
+
+    private Dictionary<Direction, int> movementPoints;
 
     public Goban(int size)
     {
@@ -14,24 +16,23 @@ public class Goban
             throw new Exception("Goban size is only odd-number!");
         }
 
-        this.points = initialize(size);
-    }
-
-    // 正常、異常、パス
-    public bool putStone(Stone stone, int pointIndex)
-    {
-        // TODO:判定
-
-        // 碁盤を更新
-        this.updatePoints(pointIndex, stone == Stone.Black ? PointState.Black : PointState.White);
-
-        return true;
-    }
-
-    private PointState[] initialize(int size)
-    {
         var width = size + 2;   // 枠を含めた横幅
-        var points = new PointState[width * width];
+
+        this.points = initialize(width);
+
+        this.movementPoints = new Dictionary<Common.Direction, int> {
+            {Direction.Top, -width},
+            {Direction.Left, -1},
+            {Direction.Right, +1},
+            {Direction.Botom, + width},
+        };
+    }
+
+    private Stone[] initialize(int width)
+    {
+        var points = new Stone[width * width];
+
+
 
         for (int i = 0; i < points.Length; i++)
         {
@@ -42,19 +43,14 @@ public class Goban
 
             if (isTopEdge || isLeftEdge || isRightEdge || isBottomEdge)
             {
-                points[i] = PointState.Edge;
+                points[i] = Stone.Edge;
             }
             else
             {
-                points[i] = PointState.Empty;
+                points[i] = Stone.Empty;
             }
         }
 
         return points;
-    }
-
-    private void updatePoints(int index, PointState state)
-    {
-        this.points[index] = state;
     }
 }
