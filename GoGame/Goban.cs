@@ -18,12 +18,12 @@ public class Goban
     }
 
     // 正常、異常、パス
-    public bool putStone(Teban teban, int pointIndex)
+    public bool putStone(Stone stone, int pointIndex)
     {
         // TODO:判定
 
         // 碁盤を更新
-        this.updatePoints(pointIndex, teban == Teban.Sente ? PointState.Black : PointState.White);
+        this.updatePoints(pointIndex, stone == Stone.Black ? PointState.Black : PointState.White);
 
         return true;
     }

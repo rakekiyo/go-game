@@ -7,14 +7,16 @@ public class Taikyoku
 {
     private Goban goban;
 
-    private Player sentePlayer;
-    private Player gotePlayer;
+    private Player[] players;
 
     public Taikyoku(Regulations regulations)
     {
         this.goban = new Goban(Convert.ToInt32(regulations.BoradSize));
-        this.sentePlayer = new TestPlayer(regulations, Teban.Sente);
-        this.gotePlayer = new TestPlayer(regulations, Teban.Gote);
+        this.players = new Player[2]
+        {
+            new TestPlayer(regulations, Stone.Black),
+            new TestPlayer(regulations, Stone.White)
+        };
     }
 
     /// <summary>
@@ -23,7 +25,7 @@ public class Taikyoku
     public void start()
     {
         var tesuu = 0;
-        var currentPlayer = sentePlayer;
+        var currentPlayer = players.First();
 
         GobanPrinter.print(this.goban);
 
@@ -33,11 +35,11 @@ public class Taikyoku
             var selectedMove = currentPlayer.selectNextMove(this.goban.points);
 
             // 石を置く
-            if (this.goban.putStone(currentPlayer.Teban, selectedMove))
+            if (this.goban.putStone(currentPlayer.Stone, selectedMove))
             {
                 tesuu++;
 
-                currentPlayer = this.changePlayer(currentPlayer.Teban);
+                currentPlayer = this.changePlayer(currentPlayer.Stone);
                 GobanPrinter.print(this.goban);
             }
 
@@ -49,8 +51,8 @@ public class Taikyoku
         }
     }
 
-    private Player changePlayer(Teban currentTeban)
+    private Player changePlayer(Stone currentStone)
     {
-        return (currentTeban == Teban.Sente) ? this.gotePlayer : this.sentePlayer;
+        return this.players.Where(player => player.Stone != currentStone).First();
     }
 }

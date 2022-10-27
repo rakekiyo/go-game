@@ -5,7 +5,7 @@ namespace rakekiyo.GoGame.Players;
 public class TestPlayer : Player
 {
 
-    public TestPlayer(Regulations regulations, Teban teban) : base(regulations, teban)
+    public TestPlayer(Regulations regulations, Stone teban) : base(regulations, teban)
     { }
 
     public override int selectNextMove(in PointState[] points)

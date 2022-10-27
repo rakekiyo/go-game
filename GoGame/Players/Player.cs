@@ -5,12 +5,12 @@ namespace rakekiyo.GoGame.Players;
 public abstract class Player
 {
     private Regulations regulations;
-    public Teban Teban { get; init; }
+    public Stone Stone { get; init; }
 
-    public Player(Regulations regulations, Teban teban)
+    public Player(Regulations regulations, Stone stone)
     {
         this.regulations = regulations;
-        this.Teban = teban;
+        this.Stone = stone;
     }
 
     public abstract int selectNextMove(in PointState[] points);
