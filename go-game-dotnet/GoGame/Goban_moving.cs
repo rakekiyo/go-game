@@ -41,7 +41,7 @@ public partial class Goban
                 {Direction.Top, new DirectionStatus()},
                 {Direction.Right, new DirectionStatus()},
                 {Direction.Left, new DirectionStatus()},
-                {Direction.Botom, new DirectionStatus()},
+                {Direction.Bottom, new DirectionStatus()},
             };
 
             this.enemyStone = (currentStone == Stone.Black) ? Stone.White : Stone.Black;

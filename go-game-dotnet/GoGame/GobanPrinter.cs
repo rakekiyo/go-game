@@ -7,7 +7,7 @@ public static class GobanPrinter
 {
     public static void print(Goban goban)
     {
-        var points = goban.getPoints();
+        var points = goban.getCopyOfPoints();
         var width = Convert.ToInt32(System.Math.Sqrt(points.Length));
 
         var buffer = new StringBuilder();

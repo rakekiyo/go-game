@@ -24,15 +24,13 @@ public partial class Goban
             {Direction.Top, -width},
             {Direction.Left, -1},
             {Direction.Right, +1},
-            {Direction.Botom, + width},
+            {Direction.Bottom, + width},
         };
     }
 
     private Stone[] initialize(int width)
     {
         var points = new Stone[width * width];
-
-
 
         for (int i = 0; i < points.Length; i++)
         {

@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="rakekiyo.GoGame">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>References/GoGame.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\GoGame\Gogame.csproj" />
   </ItemGroup>
+  
 </Project>

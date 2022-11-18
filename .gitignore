@@ -1,4 +1,7 @@
-GoGame/obj
-GoGame/bin
-Play/obj
-Play/bin
+go-game-dotnet/GoGame/obj
+go-game-dotnet/GoGame/bin
+go-game-dotnet/Gogame.Tests/obj
+go-game-dotnet/Gogame.Tests/bin
+go-game-dotnet/Play/obj
+go-game-dotnet/Play/bin
+

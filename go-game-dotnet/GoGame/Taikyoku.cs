@@ -32,7 +32,7 @@ public class Taikyoku
         while (true)
         {
             // 手を選ぶ
-            var selectedMove = currentPlayer.selectNextMove(this.goban.getPoints());
+            var selectedMove = currentPlayer.selectNextMove(this.goban.getCopyOfPoints());
 
             // 石を置く
             switch (this.goban.move(currentPlayer.Stone, selectedMove))
