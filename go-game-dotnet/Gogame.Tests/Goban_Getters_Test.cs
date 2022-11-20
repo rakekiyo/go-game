@@ -4,28 +4,15 @@ namespace rakekiyo.GoGame;
 
 public class Goban_Getters_Test
 {
-    [Fact(DisplayName = "初期化碁盤を取得(size=3)")]
-    public void getCopyOfPoints_InitializeofSize3_ReturnPoints()
-    {
-        var goban = new Goban(3);
-        var actual = goban.getCopyOfPoints();
-
-        Assert.Equal(new Common.Stone[] {
+    [Theory(DisplayName = "上下左右の着手点位置を取得")]
+    [InlineData(3, new Common.Stone[] {
             Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge,
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
             Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge
-         }, actual);
-    }
-
-    [Fact(DisplayName = "初期化碁盤を取得(size=5)")]
-    public void getCopyOfPoints_InitializeofSize5_ReturnPoints()
-    {
-        var goban = new Goban(5);
-        var actual = goban.getCopyOfPoints();
-
-        Assert.Equal(new Common.Stone[] {
+         })]
+    [InlineData(5, new Common.Stone[] {
             Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge,
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
@@ -33,7 +20,13 @@ public class Goban_Getters_Test
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
             Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge
-         }, actual);
+         })]
+    public void getCopyOfPoints_InitializeofSize3_ReturnPoints(int gobanSize, Stone[] expectedPoints)
+    {
+        var goban = new Goban(gobanSize);
+        var actual = goban.getCopyOfPoints();
+
+        Assert.Equal(expectedPoints, actual);
     }
 
     [Theory(DisplayName = "上下左右の着手点位置を取得")]
