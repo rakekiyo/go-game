@@ -27,12 +27,12 @@ public class Taikyoku
         var tesuu = 0;
         var currentPlayer = players.First();
 
-        GobanPrinter.print(this.goban);
+        GobanPrinter.print((Goban)this.goban.Clone());
 
         while (true)
         {
             // 手を選ぶ
-            var selectedMove = currentPlayer.selectNextMove(this.goban.getCopyOfPoints());
+            var selectedMove = currentPlayer.selectNextMove((Goban)this.goban.Clone());
 
             // 石を置く
             switch (this.goban.move(currentPlayer.Stone, selectedMove))
@@ -43,7 +43,10 @@ public class Taikyoku
                     currentPlayer = this.changePlayer(currentPlayer.Stone);
                     GobanPrinter.print(this.goban);
                     break;
-                case Goban.MovingResult.NG:
+                case Goban.MovingResult.SUISIDE:
+                case Goban.MovingResult.KO:
+                case Goban.MovingResult.EYE:
+                case Goban.MovingResult.NOT_EMPTY:
                     // 未実装
                     tesuu++;
                     break;

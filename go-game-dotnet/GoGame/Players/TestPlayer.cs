@@ -4,23 +4,26 @@ namespace rakekiyo.GoGame.Players;
 
 public class TestPlayer : Player
 {
+    private Random random;
 
     public TestPlayer(Regulations regulations, Stone teban) : base(regulations, teban)
-    { }
-
-    public override int selectNextMove(in Stone[] points)
     {
-        var nextMove = 0;
+        random = new Random(DateTime.Now.Millisecond);
+    }
 
-        for (int i = 0; i < points.Length; i++)
+    public override int selectNextMove(in Goban goban)
+    {
+        var points = goban.getPoints();
+
+        Thread.Sleep(500);
+
+        while (true)
         {
-            if (points[i] == Stone.Empty)
+            var nextIndex = random.Next(0, points.Length - 1);
+            if (points[nextIndex] == Stone.Empty)
             {
-                nextMove = i;
-                break;
+                return nextIndex;
             }
         }
-
-        return nextMove;
     }
 }

@@ -21,10 +21,10 @@ public class Goban_Getters_Test
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
             Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge
          })]
-    public void getCopyOfPoints_InitializeofSize3_ReturnPoints(int gobanSize, Stone[] expectedPoints)
+    public void getPoints_Initialize_ReturnPoints(int gobanSize, Stone[] expectedPoints)
     {
         var goban = new Goban(gobanSize);
-        var actual = goban.getCopyOfPoints();
+        var actual = goban.getPoints();
 
         Assert.Equal(expectedPoints, actual);
     }

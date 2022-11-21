@@ -3,11 +3,13 @@ using rakekiyo.GoGame.Common;
 
 namespace rakekiyo.GoGame;
 
-public partial class Goban
+public partial class Goban : ICloneable
 {
     private Stone[] points;
 
     private Dictionary<Direction, int> movementPoints;
+
+    private int koPoint = 0;
 
     public Goban(int size)
     {
@@ -17,22 +19,17 @@ public partial class Goban
         }
 
         var width = size + 2;   // 枠を含めた横幅
+        this.points = this.newPoints(width);
+        this.movementPoints = this.newMovementPoints(width);
 
-        this.points = initialize(width);
-
-        this.movementPoints = new Dictionary<Common.Direction, int> {
-            {Direction.Top, -width},
-            {Direction.Left, -1},
-            {Direction.Right, +1},
-            {Direction.Bottom, + width},
-        };
+        this.koPoint = 0;
     }
 
-    private Stone[] initialize(int width)
+    private Stone[] newPoints(int width)
     {
-        var points = new Stone[width * width];
+        var newPoints = new Stone[width * width];
 
-        for (int i = 0; i < points.Length; i++)
+        for (int i = 0; i < newPoints.Length; i++)
         {
             bool isTopEdge = (i < width);   // 上端判定
             bool isLeftEdge = ((i % width) == 0);   // 左端判定
@@ -41,14 +38,34 @@ public partial class Goban
 
             if (isTopEdge || isLeftEdge || isRightEdge || isBottomEdge)
             {
-                points[i] = Stone.Edge;
+                newPoints[i] = Stone.Edge;
             }
             else
             {
-                points[i] = Stone.Empty;
+                newPoints[i] = Stone.Empty;
             }
         }
 
-        return points;
+        return newPoints;
+    }
+
+    private Dictionary<Direction, int> newMovementPoints(int boardWidth)
+    {
+        return new Dictionary<Direction, int> {
+            {Direction.Top, -boardWidth},
+            {Direction.Left, -1},
+            {Direction.Right, +1},
+            {Direction.Bottom, + boardWidth},
+        };
+    }
+
+    public Object Clone()
+    {
+        return new Goban(1) //引数は奇数なら何でもいい
+        {
+            points = (Stone[])this.points.Clone(),
+            movementPoints = new Dictionary<Direction, int>(this.movementPoints),
+            koPoint = this.koPoint
+        };
     }
 }

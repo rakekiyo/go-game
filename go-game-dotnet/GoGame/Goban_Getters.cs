@@ -8,16 +8,11 @@ public partial class Goban
     /// <summary>
     /// コピーされた着手点を取得
     /// </summary>
-    public Stone[] getCopyOfPoints()
+    public Stone[] getPoints()
     {
-        var copiedPoints = new Stone[this.points.Length];
-
-        Array.Copy(this.points, copiedPoints, this.points.Length);
-
-        return copiedPoints;
+        return this.points;
     }
 
-    // TODO:これのテストもしたい
     public int getDirectionPointIndex(int pointIndex, Direction dir)
     {
         return pointIndex + movementPoints[dir];
