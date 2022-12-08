@@ -12,14 +12,14 @@ public partial class Goban
     {
         public int pointIndex;
 
-        public struct DirectionStatus
+        public class DirectionStatus
         {
             public int dameCount;  // ダメ数
             public int stoneCount; // 石数
             public Stone stone;    // 色
         }
 
-        public DirectionStatus[] aroundStatus;   // 4方向の状態
+        public Dictionary<Direction, DirectionStatus> aroundStatus;   // 4方向の状態
         public Stone friendStone;   // 味方の石色
         public Stone enemyStone;   // 相手の石色
         public int emptyCount;     // 4方向の空白の数
@@ -33,7 +33,13 @@ public partial class Goban
         /// </summary>
         public PointStatus(Stone friendStone, int pointIndex)
         {
-            this.aroundStatus = new DirectionStatus[4];
+            this.aroundStatus = new()
+            {
+                {Direction.Top, new DirectionStatus()},
+                {Direction.Left, new DirectionStatus()},
+                {Direction.Right, new DirectionStatus()},
+                {Direction.Bottom, new DirectionStatus()},
+            };
 
             this.pointIndex = pointIndex;
             this.friendStone = friendStone;
@@ -73,9 +79,9 @@ public partial class Goban
                 {
                     (int dameCount, int stoneCount) = countDame(goban, pointIndex); // (ダメの数, 石の数)
 
-                    pointStatus.aroundStatus[(int)dir].stone = dirStone;
-                    pointStatus.aroundStatus[(int)dir].dameCount = dameCount;
-                    pointStatus.aroundStatus[(int)dir].stoneCount = stoneCount;
+                    pointStatus.aroundStatus[dir].stone = dirStone;
+                    pointStatus.aroundStatus[dir].dameCount = dameCount;
+                    pointStatus.aroundStatus[dir].stoneCount = stoneCount;
 
                     if (dirStone == pointStatus.enemyStone && dameCount == 1)
                     {

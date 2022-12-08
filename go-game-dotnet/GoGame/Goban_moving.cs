@@ -26,7 +26,7 @@ public partial class Goban
         if (this.canMove(pointStatus, out MovingResult result))
         {
             // 碁盤を更新
-            this.updatePoints(pointIndex, stone);
+            this.updatePoints(pointStatus);
         }
 
         return result;
@@ -62,11 +62,18 @@ public partial class Goban
     }
 
 
-    private void updatePoints(int index, Stone stone)
+    private void updatePoints(PointStatus pointStatus)
     {
+        foreach (var dirStatus in pointStatus.aroundStatus)
+        // {
+        //     if (dirStatus == 1 && dirStatus.stone == pointStatus.enemyStone
+        //     && this.points[this.getDirectionPointIndex(pointStatus.pointIndex, pointStatus.di)])
+        // }
+
+
         /* スタブ */
         {
-            this.points[index] = stone;
+            this.points[pointStatus.pointIndex] = pointStatus.friendStone;
         }
     }
 
