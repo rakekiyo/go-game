@@ -4,7 +4,7 @@ namespace rakekiyo.GoGame;
 
 public class Goban_Getters_Test
 {
-    [Theory(DisplayName = "上下左右の着手点位置を取得")]
+    [Theory(DisplayName = "碁盤の初期化")]
     [InlineData(3, new Common.Stone[] {
             Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge,
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
@@ -21,24 +21,22 @@ public class Goban_Getters_Test
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
             Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge
          })]
-    public void getPoints_Initialize_ReturnPoints(int gobanSize, Stone[] expectedPoints)
+    private void Initialize(int gobanSize, Stone[] expected)
     {
-        var goban = new Goban(gobanSize);
-        var actual = goban.getPoints();
-
-        Assert.Equal(expectedPoints, actual);
+        var actual = new Goban(gobanSize).createPointsClone();
+        Assert.Equal(expected, actual);
     }
 
-    [Theory(DisplayName = "上下左右の着手点位置を取得")]
+    [Theory(DisplayName = "隣位置を取得")]
     [InlineData(9, 24, Direction.Top, 13)]
     [InlineData(9, 24, Direction.Left, 23)]
     [InlineData(9, 24, Direction.Right, 25)]
     [InlineData(9, 24, Direction.Bottom, 35)]
-    public void getDirectionPointIndex_AnyDirection_ReturnPoint(int gobanSize, int currentIndex, Direction actDirection, int expectedIndex)
+    private void getNeighborIndex(int gobanSize, int index, Direction direction, int expected)
     {
         var goban = new Goban(gobanSize);
-        var actual = goban.getDirectionPointIndex(currentIndex, actDirection);
+        var actual = goban.getNeighborIndex(index, direction);
 
-        Assert.Equal(expectedIndex, actual);
+        Assert.Equal(expected, actual);
     }
 }

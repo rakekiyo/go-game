@@ -6,8 +6,9 @@ namespace rakekiyo.GoGame;
 public partial class Goban : ICloneable
 {
     private Stone[] points;
+    private int[] agehama;
 
-    private Dictionary<Direction, int> movementPoints;
+    private Dictionary<Direction, int> movementDistances;
 
     private int koPoint = 0;
 
@@ -18,9 +19,11 @@ public partial class Goban : ICloneable
             throw new Exception("Goban size is only odd-number!");
         }
 
-        var width = size + 2;   // 枠を含めた横幅
+        int width = size + 2;   // 枠を含めた横幅
+
         this.points = this.newPoints(width);
-        this.movementPoints = this.newMovementPoints(width);
+        this.agehama = new int[2] { 0, 0 };
+        this.movementDistances = this.newMovementDistances(width);
 
         this.koPoint = 0;
     }
@@ -49,7 +52,7 @@ public partial class Goban : ICloneable
         return newPoints;
     }
 
-    private Dictionary<Direction, int> newMovementPoints(int boardWidth)
+    private Dictionary<Direction, int> newMovementDistances(int boardWidth)
     {
         return new Dictionary<Direction, int> {
             {Direction.Top, -boardWidth},
@@ -64,7 +67,7 @@ public partial class Goban : ICloneable
         return new Goban(1) //引数は奇数なら何でもいい
         {
             points = (Stone[])this.points.Clone(),
-            movementPoints = new Dictionary<Direction, int>(this.movementPoints),
+            movementDistances = new Dictionary<Direction, int>(this.movementDistances),
             koPoint = this.koPoint
         };
     }

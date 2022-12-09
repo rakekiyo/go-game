@@ -34,22 +34,22 @@ public partial class Goban
 
     private bool canMove(in PointStatus pointStatus, out MovingResult result)
     {
-        if (pointStatus.pointIndex == 0)
+        if (pointStatus.Index == 0)
         {
             result = MovingResult.PASS;  // パス
             return false;
         }
-        else if (pointStatus.preyStoneCount == 0 && pointStatus.emptyCount == 0 && pointStatus.saftyFriendStoneCount == 0)
+        else if (pointStatus.TakeupStoneCount == 0 && pointStatus.EmptyCount == 0 && pointStatus.SaftyFriendStoneCount == 0)
         {
             result = MovingResult.SUISIDE;  // 自殺手
             return false;
         }
-        else if (pointStatus.pointIndex == this.koPoint)
+        else if (pointStatus.Index == this.koPoint)
         {
             result = MovingResult.KO;   // コウ
             return false;
         }
-        else if ((pointStatus.edgeCount + pointStatus.saftyFriendStoneCount) == 4)
+        else if ((pointStatus.EdgeCount + pointStatus.SaftyFriendStoneCount) == 4)
         {
             result = MovingResult.EYE;  // 眼（ルール違反ではない）
             return true;
@@ -62,20 +62,32 @@ public partial class Goban
     }
 
 
+    /// <summary>
+    /// 碁盤を更新する
+    /// </summary>
+    /// <param name="pointStatus"></param>
     private void updatePoints(PointStatus pointStatus)
     {
-        foreach (var dirStatus in pointStatus.aroundStatus)
-        // {
-        //     if (dirStatus == 1 && dirStatus.stone == pointStatus.enemyStone
-        //     && this.points[this.getDirectionPointIndex(pointStatus.pointIndex, pointStatus.di)])
-        // }
-
-
-        /* スタブ */
+        foreach (var neighbor in pointStatus.Neighbors)
         {
-            this.points[pointStatus.pointIndex] = pointStatus.friendStone;
+            if (neighbor.Stone == pointStatus.EnemyStone && this.points[neighbor.Index] != Stone.Empty
+            && neighbor.DameCount == 1)
+            {
+                this.takeUp(neighbor.Index, neighbor.Stone);    // 石を取る
+                this.agehama[(int)neighbor.Stone] += neighbor.StoneCount;
+            }
         }
+
+        this.points[pointStatus.Index] = pointStatus.FriendStone;  // 石を置く
+
+        this.koPoint = pointStatus.getKoPoint(this) ?? 0;   // コウ判定
     }
 
-
+    /// <summary>
+    /// 石を取る関数
+    /// </summary>
+    private void takeUp(int index, Stone stone)
+    {
+        // TODO
+    }
 }

@@ -6,14 +6,14 @@ public class TestPlayer : Player
 {
     private Random random;
 
-    public TestPlayer(Regulations regulations, Stone teban) : base(regulations, teban)
+    public TestPlayer(Regulations regulations, Stone stone) : base(regulations, stone)
     {
         random = new Random(DateTime.Now.Millisecond);
     }
 
     public override int selectNextMove(in Goban goban)
     {
-        var points = goban.getPoints();
+        var points = goban.createPointsClone();
 
         Thread.Sleep(500);
 

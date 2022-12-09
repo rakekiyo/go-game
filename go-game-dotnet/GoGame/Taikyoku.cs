@@ -27,7 +27,6 @@ public class Taikyoku
         var tesuu = 0;
         var currentPlayer = players.First();
 
-
         while (true)
         {
             GobanPrinter.print((Goban)this.goban.Clone());
