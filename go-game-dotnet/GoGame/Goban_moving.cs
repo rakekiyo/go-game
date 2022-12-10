@@ -70,7 +70,7 @@ public partial class Goban
     {
         foreach (var neighbor in pointStatus.Neighbors)
         {
-            if (neighbor.Stone == pointStatus.EnemyStone && this.points[neighbor.Index] != Stone.Empty
+            if (neighbor.Stone == pointStatus.EnemyStone && this.points[neighbor.Index].Stone != Stone.Empty
             && neighbor.DameCount == 1)
             {
                 this.takeUp(neighbor.Index, neighbor.Stone);    // 石を取る
@@ -78,7 +78,7 @@ public partial class Goban
             }
         }
 
-        this.points[pointStatus.Index] = pointStatus.FriendStone;  // 石を置く
+        this.points[pointStatus.Index].put(pointStatus.FriendStone);  // 石を置く
 
         this.koPoint = pointStatus.getKoPoint(this) ?? 0;   // コウ判定
     }
@@ -88,14 +88,15 @@ public partial class Goban
     /// </summary>
     private void takeUp(int index, Stone stone)
     {
-        this.points[index] = Stone.Empty;
         foreach (Direction direction in Enum.GetValues(typeof(Direction)))
         {
             var neighborIndex = this.getNeighborIndex(index, direction);
-            if (this.points[neighborIndex] == stone)
+            if (this.points[neighborIndex].isSame(stone))
             {
                 takeUp(neighborIndex, stone);
             }
         }
+
+        this.points[index].put(Stone.Empty);
     }
 }

@@ -5,7 +5,7 @@ namespace rakekiyo.GoGame;
 
 public partial class Goban : ICloneable
 {
-    private Stone[] points;
+    private Point[] points;
     private int[] agehama;
 
     private Dictionary<Direction, int> movementDistances;
@@ -28,28 +28,22 @@ public partial class Goban : ICloneable
         this.koPoint = 0;
     }
 
-    private Stone[] newPoints(int width)
+    private Point[] newPoints(int width)
     {
-        var newPoints = new Stone[width * width];
+        var points = new Point[width * width];
 
-        for (int i = 0; i < newPoints.Length; i++)
+        for (int i = 0; i < points.Length; i++)
         {
             bool isTopEdge = (i < width);   // 上端判定
             bool isLeftEdge = ((i % width) == 0);   // 左端判定
             bool isRightEdge = (((i - (width - 1)) % width) == 0);  // 右端判定
             bool isBottomEdge = (i > ((width * width - 1) - width));    // 下端判定
 
-            if (isTopEdge || isLeftEdge || isRightEdge || isBottomEdge)
-            {
-                newPoints[i] = Stone.Edge;
-            }
-            else
-            {
-                newPoints[i] = Stone.Empty;
-            }
+            bool isEdge = (isTopEdge || isLeftEdge || isRightEdge || isBottomEdge);
+            points[i].put(isEdge ? Stone.Edge : Stone.Empty);
         }
 
-        return newPoints;
+        return points;
     }
 
     private Dictionary<Direction, int> newMovementDistances(int boardWidth)
@@ -66,7 +60,7 @@ public partial class Goban : ICloneable
     {
         return new Goban(1) //引数は奇数なら何でもいい
         {
-            points = (Stone[])this.points.Clone(),
+            points = (Point[])this.points.Clone(),
             movementDistances = new Dictionary<Direction, int>(this.movementDistances),
             koPoint = this.koPoint
         };

@@ -5,6 +5,29 @@ using rakekiyo.GoGame.Common;
 namespace rakekiyo.GoGame;
 
 /// <summary>
+/// 着手点
+/// </summary>
+public struct Point
+{
+    public Stone Stone { get; private set; }
+
+    public Point()
+    {
+        this.Stone = Stone.Empty;
+    }
+
+    public void put(Stone stone)
+    {
+        this.Stone = stone;
+    }
+
+    public bool isSame(Stone stone)
+    {
+        return (this.Stone == stone);
+    }
+}
+
+/// <summary>
 /// 次に着手したい点の状態
 /// </summary>
 internal struct PointStatus
@@ -119,7 +142,7 @@ internal struct PointStatus
         int dameCount = 0;
         int stoneCount = 0;
 
-        Stone[] points = goban.getPointsCopy();
+        Point[] points = goban.getPointsCopy();
         bool[] pointsChecked = Enumerable.Repeat<bool>(false, points.Length).ToArray(); // 検索済フラグ
 
         countDameSubroutine(goban, ref pointsChecked, pointIndex, ref dameCount, ref stoneCount);
@@ -140,18 +163,18 @@ internal struct PointStatus
         foreach (var dir in Enum.GetValues<Direction>())
         {
             int neighborIndex = goban.getNeighborIndex(index, dir);
-            Stone[] points = goban.getPointsCopy();
+            Point[] points = goban.getPointsCopy();
 
             if (pointsChecked[neighborIndex]) continue;
 
-            if (points[neighborIndex] == Stone.Empty)
+            if (points[neighborIndex].isSame(Stone.Empty))
             {
                 pointsChecked[index] = true;   // この位置（空点）を検索済に
                 dameCount++;    // ダメの数
             }
 
             // 未探索の自分の石
-            if (points[neighborIndex] == points[index])
+            if (points[neighborIndex].isSame(points[index].Stone))
             {
                 countDameSubroutine(goban, ref pointsChecked, neighborIndex, ref dameCount, ref stoneCount);
             }

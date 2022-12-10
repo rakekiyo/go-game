@@ -21,10 +21,17 @@ public class Goban_Getters_Test
             Stone.Edge, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Empty, Stone.Edge,
             Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge, Stone.Edge
          })]
-    private void Initialize(int gobanSize, Stone[] expected)
+    private void Initialize(int gobanSize, Stone[] expectedStones)
     {
-        var actual = new Goban(gobanSize).getPointsCopy();
-        Assert.Equal(expected, actual);
+        var points = new Goban(gobanSize).getPointsCopy();
+
+        for (int i = 0; i < points.Length; i++)
+        {
+            var expected = expectedStones[i];
+            var actual = points[i].Stone;
+
+            Assert.Equal(expected, actual);
+        }
     }
 
     [Theory(DisplayName = "隣位置を取得")]

@@ -20,7 +20,7 @@ public class TestPlayer : Player
         while (true)
         {
             var nextIndex = random.Next(0, points.Length - 1);
-            if (points[nextIndex] == Stone.Empty)
+            if (points[nextIndex].isSame(Stone.Empty))
             {
                 return nextIndex;
             }

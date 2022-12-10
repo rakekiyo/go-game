@@ -8,14 +8,14 @@ public partial class Goban
     /// <summary>
     /// コピーされた着手点を取得
     /// </summary>
-    public Stone[] getPointsCopy()
+    public Point[] getPointsCopy()
     {
-        return (Stone[])this.points.Clone();
+        return (Point[])this.points.Clone();
     }
 
     public Stone getStone(int pointIndex)
     {
-        return this.points[pointIndex];
+        return this.points[pointIndex].Stone;
     }
 
     /// <summary>
