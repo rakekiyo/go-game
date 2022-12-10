@@ -2,21 +2,20 @@ using rakekiyo.GoGame.Common;
 
 namespace rakekiyo.GoGame.Players;
 
-public class TestPlayer : Player
+public class RandomPlayer : Player
 {
     private Random random;
 
-    public TestPlayer(Regulations regulations, Stone stone) : base(regulations, stone)
+    public RandomPlayer(Regulations regulations, Stone stone) : base(regulations, stone)
     {
         random = new Random(DateTime.Now.Millisecond);
     }
 
     public override int selectNextMove(in Goban goban)
     {
-        var points = goban.getPointsCopy();
+        Thread.Sleep(100);
 
-        Thread.Sleep(500);
-
+        var points = goban.getPointsRef();
         while (true)
         {
             var nextIndex = random.Next(0, points.Length - 1);

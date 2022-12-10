@@ -6,16 +6,14 @@ namespace rakekiyo.GoGame;
 public class Taikyoku
 {
     private Goban goban;
-
     private Player[] players;
-
     public Taikyoku(Regulations regulations)
     {
         this.goban = new Goban(Convert.ToInt32(regulations.BoradSize));
         this.players = new Player[2]
         {
-            new TestPlayer(regulations, Stone.Black),
-            new TestPlayer(regulations, Stone.White)
+            new RandomPlayer(regulations, Stone.Black),
+            new RandomPlayer(regulations, Stone.White)
         };
     }
 
@@ -38,10 +36,10 @@ public class Taikyoku
             }
 
             // 手を選ぶ
-            var selectedMove = currentPlayer.selectNextMove((Goban)this.goban.Clone());
+            var nextIndex = currentPlayer.selectNextMove((Goban)this.goban);
 
             // 石を置く
-            switch (this.goban.move(currentPlayer.Stone, selectedMove))
+            switch (this.goban.move(currentPlayer.Stone, nextIndex))
             {
                 case Goban.MovingResult.SUISIDE:
                 case Goban.MovingResult.KO:
@@ -52,15 +50,17 @@ public class Taikyoku
                 case Goban.MovingResult.PASS:
                 case Goban.MovingResult.OK:
                     tesuu++;
-                    currentPlayer = this.changePlayer(currentPlayer.Stone);
+                    currentPlayer = this.switchPlayer(currentPlayer);
                     GobanPrinter.print(this.goban);
                     break;
             }
         }
     }
 
-    private Player changePlayer(Stone currentStone)
+    private Player switchPlayer(in Player currentPlayer)
     {
-        return this.players.Where(player => player.Stone != currentStone).First();
+        var currentStone = currentPlayer.Stone;
+        var nextPlayer = this.players.Where(player => player.Stone != currentStone).First();
+        return nextPlayer;
     }
 }

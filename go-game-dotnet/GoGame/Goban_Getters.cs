@@ -6,7 +6,14 @@ namespace rakekiyo.GoGame;
 public partial class Goban
 {
     /// <summary>
-    /// コピーされた着手点を取得
+    /// 着手点の参照取得
+    /// </summary>
+    public Point[] getPointsRef()
+    {
+        return this.points;
+    }
+    /// <summary>
+    /// 着手点のコピーを取得
     /// </summary>
     public Point[] getPointsCopy()
     {
