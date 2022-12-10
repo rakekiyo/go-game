@@ -130,30 +130,30 @@ internal struct PointStatus
     /// <summary>
     /// ダメと石数を数える再帰関数
     /// </summary>
-    private static void countDameSubroutine(in Goban goban, ref bool[] pointsChecked, int pointIndex, ref int dameCount, ref int stoneCount)
+    private static void countDameSubroutine(in Goban goban, ref bool[] pointsChecked, int index, ref int dameCount, ref int stoneCount)
     {
-        pointsChecked[pointIndex] = true;    // この位置（石）はチェック済
+        pointsChecked[index] = true;    // この位置（石）はチェック済
 
         stoneCount++;   // 石の数
 
         // ４方向を調べて、空白なら+1、自分の石なら再帰で、相手の石・壁はそのまま
         foreach (var dir in Enum.GetValues<Direction>())
         {
-            int dirPointIndex = goban.getNeighborIndex(pointIndex, dir);
+            int neighborIndex = goban.getNeighborIndex(index, dir);
             Stone[] points = goban.getPointsCopy();
 
-            if (pointsChecked[dirPointIndex]) continue;
+            if (pointsChecked[neighborIndex]) continue;
 
-            if (points[dirPointIndex] == Stone.Empty)
+            if (points[neighborIndex] == Stone.Empty)
             {
-                pointsChecked[pointIndex] = true;   // この位置（空点）を検索済に
+                pointsChecked[index] = true;   // この位置（空点）を検索済に
                 dameCount++;    // ダメの数
             }
 
             // 未探索の自分の石
-            if (points[dirPointIndex] == points[pointIndex])
+            if (points[neighborIndex] == points[index])
             {
-                countDameSubroutine(goban, ref pointsChecked, dirPointIndex, ref dameCount, ref stoneCount);
+                countDameSubroutine(goban, ref pointsChecked, neighborIndex, ref dameCount, ref stoneCount);
             }
         }
     }

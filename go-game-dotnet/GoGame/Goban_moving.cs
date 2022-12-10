@@ -88,6 +88,14 @@ public partial class Goban
     /// </summary>
     private void takeUp(int index, Stone stone)
     {
-        // TODO
+        this.points[index] = Stone.Empty;
+        foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+        {
+            var neighborIndex = this.getNeighborIndex(index, direction);
+            if (this.points[neighborIndex] == stone)
+            {
+                takeUp(neighborIndex, stone);
+            }
+        }
     }
 }
