@@ -8,7 +8,7 @@ public partial class Goban
     /// <summary>
     /// コピーされた着手点を取得
     /// </summary>
-    public Stone[] createPointsClone()
+    public Stone[] getPointsCopy()
     {
         return (Stone[])this.points.Clone();
     }

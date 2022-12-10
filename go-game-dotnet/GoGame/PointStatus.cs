@@ -119,7 +119,7 @@ internal struct PointStatus
         int dameCount = 0;
         int stoneCount = 0;
 
-        Stone[] points = goban.createPointsClone();
+        Stone[] points = goban.getPointsCopy();
         bool[] pointsChecked = Enumerable.Repeat<bool>(false, points.Length).ToArray(); // 検索済フラグ
 
         countDameSubroutine(goban, ref pointsChecked, pointIndex, ref dameCount, ref stoneCount);
@@ -140,7 +140,7 @@ internal struct PointStatus
         foreach (var dir in Enum.GetValues<Direction>())
         {
             int dirPointIndex = goban.getNeighborIndex(pointIndex, dir);
-            Stone[] points = goban.createPointsClone();
+            Stone[] points = goban.getPointsCopy();
 
             if (pointsChecked[dirPointIndex]) continue;
 

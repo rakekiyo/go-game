@@ -23,7 +23,7 @@ public class Goban_Getters_Test
          })]
     private void Initialize(int gobanSize, Stone[] expected)
     {
-        var actual = new Goban(gobanSize).createPointsClone();
+        var actual = new Goban(gobanSize).getPointsCopy();
         Assert.Equal(expected, actual);
     }
 

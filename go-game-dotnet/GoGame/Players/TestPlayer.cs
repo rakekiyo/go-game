@@ -13,7 +13,7 @@ public class TestPlayer : Player
 
     public override int selectNextMove(in Goban goban)
     {
-        var points = goban.createPointsClone();
+        var points = goban.getPointsCopy();
 
         Thread.Sleep(500);
 
