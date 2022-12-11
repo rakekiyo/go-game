@@ -78,10 +78,8 @@ internal struct PointStatus
             {
                 Direction = direction,
                 Index = neighborIndex,
-                Stone = goban.getStone(neighborIndex)
+                Stone = goban.getPoint(neighborIndex).Stone
             };
-
-            this.Neighbors[(int)direction] = neighbor;
 
             if (neighbor.Stone == Stone.Empty || neighbor.Stone == Stone.Edge)
             {
@@ -106,6 +104,8 @@ internal struct PointStatus
                     this.SaftyFriendStoneCount++;
                 }
             }
+
+            this.Neighbors[(int)direction] = neighbor;
         }
     }
 
@@ -155,15 +155,15 @@ internal struct PointStatus
     /// </summary>
     private static void countDameSubroutine(in Goban goban, ref bool[] pointsChecked, int index, ref int dameCount, ref int stoneCount)
     {
-        pointsChecked[index] = true;    // この位置（石）はチェック済
+        Point[] points = goban.getPointsCopy();
 
+        pointsChecked[index] = true;    // この位置（石）はチェック済
         stoneCount++;   // 石の数
 
         // ４方向を調べて、空白なら+1、自分の石なら再帰で、相手の石・壁はそのまま
         foreach (var dir in Enum.GetValues<Direction>())
         {
             int neighborIndex = goban.getNeighborIndex(index, dir);
-            Point[] points = goban.getPointsCopy();
 
             if (pointsChecked[neighborIndex]) continue;
 

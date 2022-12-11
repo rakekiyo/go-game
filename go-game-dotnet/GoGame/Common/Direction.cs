@@ -2,8 +2,8 @@ namespace rakekiyo.GoGame.Common;
 
 public enum Direction
 {
-    Top,
+    Above,
     Left,
     Right,
-    Bottom
+    Below
 }

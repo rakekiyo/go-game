@@ -73,8 +73,8 @@ public partial class Goban
             if (neighbor.Stone == pointStatus.EnemyStone && this.points[neighbor.Index].Stone != Stone.Empty
             && neighbor.DameCount == 1)
             {
-                this.takeUp(neighbor.Index, neighbor.Stone);    // 石を取る
-                this.agehama[(int)neighbor.Stone] += neighbor.StoneCount;
+                this.takeup(neighbor.Index, neighbor.Stone);    // 石を取る
+                this.agehama[neighbor.Stone] += neighbor.StoneCount;
             }
         }
 
@@ -86,14 +86,18 @@ public partial class Goban
     /// <summary>
     /// 石を取る関数
     /// </summary>
-    private void takeUp(int index, Stone stone)
+    private void takeup(int index, Stone stone)
     {
-        foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+        var aboveIndex = this.getAboveIndex(index);
+        var leftIndex = this.getLeftIndex(index);
+        var rightIndex = this.getRightIndex(index);
+        var belowIndex = this.getBelowIndex(index);
+
+        foreach (var neighborIndex in new int[] { aboveIndex, leftIndex, rightIndex, belowIndex })
         {
-            var neighborIndex = this.getNeighborIndex(index, direction);
             if (this.points[neighborIndex].isSame(stone))
             {
-                takeUp(neighborIndex, stone);
+                takeup(neighborIndex, stone);
             }
         }
 

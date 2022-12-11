@@ -15,7 +15,7 @@ public class RandomPlayer : Player
     {
         Thread.Sleep(100);
 
-        var points = goban.getPointsRef();
+        var points = goban.getPointsCopy();
         while (true)
         {
             var nextIndex = random.Next(0, points.Length - 1);

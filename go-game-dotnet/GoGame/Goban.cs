@@ -6,7 +6,7 @@ namespace rakekiyo.GoGame;
 public partial class Goban : ICloneable
 {
     private Point[] points;
-    private int[] agehama;
+    private Dictionary<Stone, int> agehama;
 
     private Dictionary<Direction, int> movementDistances;
 
@@ -22,7 +22,7 @@ public partial class Goban : ICloneable
         int width = size + 2;   // 枠を含めた横幅
 
         this.points = this.newPoints(width);
-        this.agehama = new int[2] { 0, 0 };
+        this.agehama = this.newAgehama();
         this.movementDistances = this.newMovementDistances(width);
 
         this.koPoint = 0;
@@ -49,10 +49,19 @@ public partial class Goban : ICloneable
     private Dictionary<Direction, int> newMovementDistances(int boardWidth)
     {
         return new Dictionary<Direction, int> {
-            {Direction.Top, -boardWidth},
+            {Direction.Above, -boardWidth},
             {Direction.Left, -1},
             {Direction.Right, +1},
-            {Direction.Bottom, + boardWidth},
+            {Direction.Below, + boardWidth},
+        };
+    }
+
+    private Dictionary<Stone, int> newAgehama()
+    {
+        return new Dictionary<Stone, int>
+        {
+            {Stone.Black, 0},
+            {Stone.White, 0}
         };
     }
 

@@ -35,10 +35,10 @@ public class Goban_Getters_Test
     }
 
     [Theory(DisplayName = "隣位置を取得")]
-    [InlineData(9, 24, Direction.Top, 13)]
+    [InlineData(9, 24, Direction.Above, 13)]
     [InlineData(9, 24, Direction.Left, 23)]
     [InlineData(9, 24, Direction.Right, 25)]
-    [InlineData(9, 24, Direction.Bottom, 35)]
+    [InlineData(9, 24, Direction.Below, 35)]
     private void getNeighborIndex(int gobanSize, int index, Direction direction, int expected)
     {
         var goban = new Goban(gobanSize);
