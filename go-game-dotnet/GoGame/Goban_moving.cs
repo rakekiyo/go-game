@@ -93,6 +93,8 @@ public partial class Goban
         var rightIndex = this.getRightIndex(index);
         var belowIndex = this.getBelowIndex(index);
 
+        this.points[index].put(Stone.Empty);
+
         foreach (var neighborIndex in new int[] { aboveIndex, leftIndex, rightIndex, belowIndex })
         {
             if (this.points[neighborIndex].isSame(stone))
@@ -100,7 +102,5 @@ public partial class Goban
                 takeup(neighborIndex, stone);
             }
         }
-
-        this.points[index].put(Stone.Empty);
     }
 }
