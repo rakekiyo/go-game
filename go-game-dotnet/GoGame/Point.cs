@@ -78,7 +78,7 @@ internal struct PointStatus
             {
                 Direction = direction,
                 Index = neighborIndex,
-                Stone = goban.getPoint(neighborIndex).Stone
+                Stone = goban.getStone(neighborIndex)
             };
 
             if (neighbor.Stone == Stone.Empty || neighbor.Stone == Stone.Edge)

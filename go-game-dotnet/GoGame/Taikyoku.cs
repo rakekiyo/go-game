@@ -1,5 +1,6 @@
 ﻿using rakekiyo.GoGame.Common;
 using rakekiyo.GoGame.Players;
+using static rakekiyo.GoGame.GobanOperator;
 
 namespace rakekiyo.GoGame;
 
@@ -23,6 +24,8 @@ public class Taikyoku
     public void start()
     {
         var tesuu = 0;
+        var gobanOperator = new GobanOperator(this.goban);
+
         var currentPlayer = players.First();
 
         while (true)
@@ -36,22 +39,23 @@ public class Taikyoku
             }
 
             // 手を選ぶ
-            var nextIndex = currentPlayer.selectNextMove((Goban)this.goban);
+            var nextIndex = currentPlayer.selectNextMove((Goban)this.goban.Clone());
 
             // 石を置く
-            switch (this.goban.move(currentPlayer.Stone, nextIndex))
+            switch (gobanOperator.move(currentPlayer.Stone, nextIndex))
             {
-                case Goban.MovingResult.SUISIDE:
-                case Goban.MovingResult.KO:
-                case Goban.MovingResult.EYE:
-                case Goban.MovingResult.NOT_EMPTY:
-                    tesuu++;
-                    break;
-                case Goban.MovingResult.PASS:
-                case Goban.MovingResult.OK:
+
+                case MovingResult.PASS:
+                case MovingResult.OK:
+                case MovingResult.EYE:
                     tesuu++;
                     currentPlayer = this.switchPlayer(currentPlayer);
                     GobanPrinter.print(this.goban);
+                    break;
+                case MovingResult.SUISIDE:
+                case MovingResult.KO:
+                case MovingResult.NOT_EMPTY:
+                default:
                     break;
             }
         }

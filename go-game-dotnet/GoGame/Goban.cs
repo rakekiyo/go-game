@@ -1,16 +1,15 @@
-﻿using System.Diagnostics;
+﻿using System.Security.Principal;
+using System.Diagnostics;
 using rakekiyo.GoGame.Common;
 
 namespace rakekiyo.GoGame;
 
 public partial class Goban : ICloneable
 {
-    private Point[] points;
-    private Dictionary<Stone, int> agehama;
-
-    private Dictionary<Direction, int> movementDistances;
-
-    private int koPoint = 0;
+    public int width { private get; init; }
+    public Point[] Points { get; init; }
+    public Dictionary<Stone, int> Agehama { get; init; }
+    public int KoPoint { get; set; }
 
     public Goban(int size)
     {
@@ -19,17 +18,16 @@ public partial class Goban : ICloneable
             throw new Exception("Goban size is only odd-number!");
         }
 
-        int width = size + 2;   // 枠を含めた横幅
+        this.width = size + 2;   // 枠を含めた横幅
+        this.Points = this.newPoints();
+        this.Agehama = this.newAgehama();
 
-        this.points = this.newPoints(width);
-        this.agehama = this.newAgehama();
-        this.movementDistances = this.newMovementDistances(width);
-
-        this.koPoint = 0;
+        this.KoPoint = 0;
     }
 
-    private Point[] newPoints(int width)
+    private Point[] newPoints()
     {
+        var width = this.width;
         var points = new Point[width * width];
 
         for (int i = 0; i < points.Length; i++)
@@ -46,16 +44,6 @@ public partial class Goban : ICloneable
         return points;
     }
 
-    private Dictionary<Direction, int> newMovementDistances(int boardWidth)
-    {
-        return new Dictionary<Direction, int> {
-            {Direction.Above, -boardWidth},
-            {Direction.Left, -1},
-            {Direction.Right, +1},
-            {Direction.Below, + boardWidth},
-        };
-    }
-
     private Dictionary<Stone, int> newAgehama()
     {
         return new Dictionary<Stone, int>
@@ -69,9 +57,76 @@ public partial class Goban : ICloneable
     {
         return new Goban(1) //引数は奇数なら何でもいい
         {
-            points = (Point[])this.points.Clone(),
-            movementDistances = new Dictionary<Direction, int>(this.movementDistances),
-            koPoint = this.koPoint
+            Points = (Point[])this.Points.Clone(),
+            Agehama = new Dictionary<Stone, int>(this.Agehama),
+            KoPoint = this.KoPoint
         };
+    }
+
+    /// <summary>
+    /// 着手点のコピーを取得
+    /// </summary>
+    public Point[] getPointsCopy()
+    {
+        return (Point[])this.Points.Clone();
+    }
+
+    public Stone getStone(int pointIndex)
+    {
+        return this.Points[pointIndex].Stone;
+    }
+
+    /// <summary>
+    /// 天元のindexを取得
+    /// </summary>
+    public int getTengenIndex()
+    {
+        return this.Points.Length / 2;
+    }
+
+    // /// <summary>
+    // /// 上下左右の位置を取得
+    // /// </summary>
+    public int getNeighborIndex(int pointIndex, Direction direction)
+    {
+        return direction switch
+        {
+            Direction.Above => this.getAboveIndex(pointIndex),
+            Direction.Left => this.getLeftIndex(pointIndex),
+            Direction.Right => this.getRightIndex(pointIndex),
+            _ => this.getBelowIndex(pointIndex),
+        };
+    }
+
+    /// <summary>
+    /// 指定indexxの上のindexを取得
+    /// </summary>
+    public int getAboveIndex(int index)
+    {
+        return index - this.width; ;
+    }
+
+    /// <summary>
+    /// 指定indexxの左のindexを取得
+    /// </summary>
+    public int getLeftIndex(int index)
+    {
+        return index - 1;
+    }
+
+    /// <summary>
+    /// 指定indexxの右のindexを取得
+    /// </summary>
+    public int getRightIndex(int index)
+    {
+        return index + 1;
+    }
+
+    /// <summary>
+    /// 指定indexxの下のindexを取得
+    /// </summary>
+    public int getBelowIndex(int index)
+    {
+        return index + this.width;
     }
 }

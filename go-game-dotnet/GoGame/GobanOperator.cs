@@ -3,8 +3,15 @@ using rakekiyo.GoGame.Common;
 
 namespace rakekiyo.GoGame;
 
-public partial class Goban
+public class GobanOperator
 {
+    private Goban goban;
+
+    public GobanOperator(Goban goban)
+    {
+        this.goban = goban;
+    }
+
     public enum MovingResult
     {
         OK,
@@ -21,7 +28,7 @@ public partial class Goban
     public MovingResult move(Stone stone, int pointIndex)
     {
         // 着手したい点の状態を取得
-        var pointStatus = PointStatus.get(this, stone, pointIndex);
+        var pointStatus = PointStatus.get(this.goban, stone, pointIndex);
 
         if (this.canMove(pointStatus, out MovingResult result))
         {
@@ -44,7 +51,7 @@ public partial class Goban
             result = MovingResult.SUISIDE;  // 自殺手
             return false;
         }
-        else if (pointStatus.Index == this.koPoint)
+        else if (pointStatus.Index == this.goban.KoPoint)
         {
             result = MovingResult.KO;   // コウ
             return false;
@@ -70,17 +77,17 @@ public partial class Goban
     {
         foreach (var neighbor in pointStatus.Neighbors)
         {
-            if (neighbor.Stone == pointStatus.EnemyStone && this.points[neighbor.Index].Stone != Stone.Empty
+            if (neighbor.Stone == pointStatus.EnemyStone && this.goban.Points[neighbor.Index].Stone != Stone.Empty
             && neighbor.DameCount == 1)
             {
                 this.takeup(neighbor.Index, neighbor.Stone);    // 石を取る
-                this.agehama[neighbor.Stone] += neighbor.StoneCount;
+                this.goban.Agehama[neighbor.Stone] += neighbor.StoneCount;
             }
         }
 
-        this.points[pointStatus.Index].put(pointStatus.FriendStone);  // 石を置く
+        this.goban.Points[pointStatus.Index].put(pointStatus.FriendStone);  // 石を置く
 
-        this.koPoint = pointStatus.getKoPoint(this) ?? 0;   // コウ判定
+        this.goban.KoPoint = pointStatus.getKoPoint(this.goban) ?? 0;   // コウ判定
     }
 
     /// <summary>
@@ -88,16 +95,16 @@ public partial class Goban
     /// </summary>
     private void takeup(int index, Stone stone)
     {
-        var aboveIndex = this.getAboveIndex(index);
-        var leftIndex = this.getLeftIndex(index);
-        var rightIndex = this.getRightIndex(index);
-        var belowIndex = this.getBelowIndex(index);
+        var aboveIndex = this.goban.getAboveIndex(index);
+        var leftIndex = this.goban.getLeftIndex(index);
+        var rightIndex = this.goban.getRightIndex(index);
+        var belowIndex = this.goban.getBelowIndex(index);
 
-        this.points[index].put(Stone.Empty);
+        this.goban.Points[index].put(Stone.Empty);
 
         foreach (var neighborIndex in new int[] { aboveIndex, leftIndex, rightIndex, belowIndex })
         {
-            if (this.points[neighborIndex].isSame(stone))
+            if (this.goban.Points[neighborIndex].isSame(stone))
             {
                 takeup(neighborIndex, stone);
             }
