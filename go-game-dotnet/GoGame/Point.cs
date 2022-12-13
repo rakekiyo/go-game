@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Net.Sockets;
+using System.Drawing;
 using System.Diagnostics;
 using rakekiyo.GoGame.Common;
 
@@ -24,6 +25,15 @@ public struct Point
     public bool isSame(Stone stone)
     {
         return (this.Stone == stone);
+    }
+
+    public bool isAny(params Stone[] stones)
+    {
+        foreach (var stone in stones)
+            if (this.Stone == stone)
+                return true;
+
+        return false;
     }
 }
 

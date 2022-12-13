@@ -47,7 +47,6 @@ public class Taikyoku
 
                 case MovingResult.PASS:
                 case MovingResult.OK:
-                case MovingResult.EYE:
                     tesuu++;
                     currentPlayer = this.switchPlayer(currentPlayer);
                     GobanPrinter.print(this.goban);
@@ -55,6 +54,7 @@ public class Taikyoku
                 case MovingResult.SUISIDE:
                 case MovingResult.KO:
                 case MovingResult.NOT_EMPTY:
+                case MovingResult.EYE:  //現状、眼の数に関わらず打ててしまう
                 default:
                     break;
             }
