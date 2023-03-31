@@ -46,4 +46,16 @@ public class Goban_Getters_Test
 
         Assert.Equal(expected, actual);
     }
+
+    [Theory(DisplayName = "(x, y)座標から1次元表示座標を取得")]
+    [InlineData(9, 0, 0, 12)]
+    [InlineData(9, 1, 1, 24)]
+    [InlineData(9, 8, 8, 108)]
+    private void getPointIndex(int gobanSize, int x, int y, int expected)
+    {
+        var goban = new Goban(gobanSize);
+        var actual = goban.getPointIndex(x, y);
+
+        Assert.Equal(expected, actual);
+    }
 }

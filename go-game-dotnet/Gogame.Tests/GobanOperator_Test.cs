@@ -20,7 +20,7 @@ public class GobanOperator_Test
     }
 
     [Fact(DisplayName = "石を取る")]
-    private void move_takeup()
+    private void move_takeUp()
     {
         var goban9 = new Goban(9);
         var gobanOperator = new GobanOperator(goban9);
@@ -35,7 +35,7 @@ public class GobanOperator_Test
         })
         {
             var expected = testCase.Result;
-            var actual = gobanOperator.move(testCase.Stone, testCase.Index);
+            var actual = gobanOperator.Move(testCase.Stone, testCase.Index);
             Assert.Equal(expected, actual);
             GobanPrinter.print(goban9); // 動作確認用
         }

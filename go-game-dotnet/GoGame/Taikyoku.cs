@@ -42,7 +42,7 @@ public class Taikyoku
             var nextIndex = currentPlayer.selectNextMove((Goban)this.goban.Clone());
 
             // 石を置く
-            switch (gobanOperator.move(currentPlayer.Stone, nextIndex))
+            switch (gobanOperator.Move(currentPlayer.Stone, nextIndex))
             {
 
                 case MovingResult.PASS:
