@@ -15,7 +15,7 @@ public class GobanOperator
     public enum MovingResult
     {
         OK,
-        SUISIDE,    // 自殺手
+        SUICIDE,    // 自殺手
         KO,         // コウ
         EYE,        // 目（ルール違反ではない）
         NOT_EMPTY,  // 既に石がある
@@ -48,7 +48,7 @@ public class GobanOperator
         }
         else if (pointStatus.TakeupStoneCount == 0 && pointStatus.EmptyCount == 0 && pointStatus.SaftyFriendStoneCount == 0)
         {
-            result = MovingResult.SUISIDE;  // 自殺手
+            result = MovingResult.SUICIDE;  // 自殺手
             return false;
         }
         else if (pointStatus.Index == this.goban.KoPoint)

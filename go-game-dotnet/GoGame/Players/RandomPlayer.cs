@@ -2,16 +2,19 @@ using rakekiyo.GoGame.Common;
 
 namespace rakekiyo.GoGame.Players;
 
-public class RandomPlayer : Player
+public class RandomPlayer : IPlayer
 {
+    public Stone Stone { get; init; }
+
     private Random random;
 
-    public RandomPlayer(Regulations regulations, Stone stone) : base(regulations, stone)
+    public RandomPlayer(Regulations regulations, Stone stone)
     {
-        random = new Random(DateTime.Now.Millisecond);
+        this.Stone = stone;
+        this.random = new Random(DateTime.Now.Millisecond);
     }
 
-    public override int selectNextMove(in Goban goban)
+    public int selectNextMove(in Goban goban)
     {
         Thread.Sleep(100);
 

@@ -7,11 +7,11 @@ namespace rakekiyo.GoGame;
 public class Taikyoku
 {
     private Goban goban;
-    private Player[] players;
+    private IPlayer[] players;
     public Taikyoku(Regulations regulations)
     {
-        this.goban = new Goban(Convert.ToInt32(regulations.BoradSize));
-        this.players = new Player[2]
+        this.goban = new Goban(Convert.ToInt32(regulations.BoardSize));
+        this.players = new IPlayer[2]
         {
             new RandomPlayer(regulations, Stone.Black),
             new RandomPlayer(regulations, Stone.White)
@@ -51,7 +51,7 @@ public class Taikyoku
                     currentPlayer = this.switchPlayer(currentPlayer);
                     GobanPrinter.print(this.goban);
                     break;
-                case MovingResult.SUISIDE:
+                case MovingResult.SUICIDE:
                 case MovingResult.KO:
                 case MovingResult.NOT_EMPTY:
                 case MovingResult.EYE:  //現状、眼の数に関わらず打ててしまう
@@ -61,7 +61,7 @@ public class Taikyoku
         }
     }
 
-    private Player switchPlayer(in Player currentPlayer)
+    private IPlayer switchPlayer(in IPlayer currentPlayer)
     {
         var currentStone = currentPlayer.Stone;
         var nextPlayer = this.players.Where(player => player.Stone != currentStone).First();
